@@ -1,48 +1,72 @@
-# Wordpress - ignore core, configuration, examples, uploads and logs.
-# https://github.com/github/gitignore/blob/main/WordPress.gitignore
+# ============================================
+# PORTFOLIO-INFRA .gitignore
+# Dernière mise à jour : 2025-01-24
+# ============================================
 
-# Core
-#
-# Note: if you want to stage/commit WP core files
-# you can delete this whole section/until Configuration.
-/wp-admin/
-/wp-content/index.php
-/wp-content/languages
-/wp-content/plugins/index.php
-/wp-content/themes/index.php
-/wp-includes/
-/index.php
-/license.txt
-/readme.html
-/wp-*.php
-/xmlrpc.php
+# ---------------------------
+# SECRETS (CRITIQUE - JAMAIS DANS GIT)
+# ---------------------------
+.env
+.env.local
+.env.production
+*.pem
+*.key
+id_ed25519*
 
-# Configuration
+# ---------------------------
+# WORDPRESS CORE
+# On ne versionne PAS le core WordPress.
+# Docker le fournit via l'image officielle.
+# On ne versionne que NOTRE code (thème enfant, plugin).
+# ---------------------------
+wp-admin/
+wp-includes/
 wp-config.php
+wp-config-sample.php
+wp-content/uploads/
+wp-content/upgrade/
+wp-content/cache/
+wp-content/backups/
+wp-content/blogs.dir/
+wp-content/advanced-cache.php
+wp-content/wp-cache-config.php
 
-# Example themes
-/wp-content/themes/twenty*/
+# Ne pas ignorer notre thème enfant et notre plugin
+# (on les inclura explicitement plus tard)
 
-# Example plugin
-/wp-content/plugins/hello.php
+# ---------------------------
+# WORDPRESS PLUGINS/THEMES TIERS
+# Installés via WordPress, pas via Git
+# ---------------------------
+wp-content/plugins/*
+wp-content/themes/*
 
-# Uploads
-/wp-content/uploads/
+# SAUF nos créations (on "dé-ignore" nos dossiers)
+!wp-content/plugins/mon-plugin/
+!wp-content/themes/mon-theme-enfant/
 
-# Log files
+# ---------------------------
+# SYSTÈME & ÉDITEURS
+# ---------------------------
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
 *.log
 
-# htaccess
-/.htaccess
+# ---------------------------
+# DOCKER
+# ---------------------------
+# Les données persistantes de la BDD
+db_data/
 
-# All plugins
-#
-# Note: If you wish to whitelist plugins,
-# uncomment the next line
-#/wp-content/plugins
-
-# All themes
-#
-# Note: If you wish to whitelist themes,
-# uncomment the next line
-#/wp-content/themes
+# ---------------------------
+# BACKUPS LOCAUX
+# ---------------------------
+*.sql
+*.sql.gz
+*.tar.gz
+backups/
