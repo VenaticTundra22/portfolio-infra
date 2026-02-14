@@ -1,10 +1,16 @@
-version: '3.8'
+# ==============================================
+# Infrastructure Portfolio — Mathéo
+# ==============================================
+# Usage : docker compose up -d
+# Secrets : dans le fichier .env (JAMAIS commité)
+# ==============================================
 
 services:
-  # Base de données MariaDB
+
+  # ---- Base de données ----
   db:
-    image: mariadb:10.11
-    container_name: portfolio_db
+    image: mariadb:${MARIADB_VERSION}
+    container_name: portfolio-db
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -14,12 +20,13 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     networks:
-      - portfolio_network
+      - backend
+    # PAS de "ports:" ici — la DB n'est JAMAIS exposée
 
-  # WordPress
+  # ---- WordPress (PHP-FPM) ----
   wordpress:
-    image: wordpress:6.4-php8.2-fpm
-    container_name: portfolio_wordpress
+    image: wordpress:${WORDPRESS_VERSION}
+    container_name: portfolio-wp
     restart: unless-stopped
     depends_on:
       - db
@@ -28,33 +35,38 @@ services:
       WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
       WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
       WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
-      WORDPRESS_TABLE_PREFIX: ${WORDPRESS_TABLE_PREFIX}
     volumes:
-      - wordpress_data:/var/www/html
+      - wp_data:/var/www/html
     networks:
-      - portfolio_network
+      - frontend
+      - backend
 
-  # Nginx (Reverse Proxy)
+  # ---- Nginx (Reverse Proxy) ----
   webserver:
-    image: nginx:1.25
-    container_name: portfolio_nginx
+    image: nginx:${NGINX_VERSION}
+    container_name: portfolio-nginx
     restart: unless-stopped
     depends_on:
       - wordpress
     ports:
       - "80:80"
+      - "443:443"
     volumes:
+      - wp_data:/var/www/html:ro
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-      - wordpress_data:/var/www/html:ro
     networks:
-      - portfolio_network
+      - frontend
 
-# Volumes persistants
+# ---- Réseaux isolés ----
+networks:
+  frontend:
+    name: portfolio-frontend
+  backend:
+    name: portfolio-backend
+
+# ---- Volumes persistants ----
 volumes:
   db_data:
-  wordpress_data:
-
-# Réseau isolé
-networks:
-  portfolio_network:
-    driver: bridge
+    name: portfolio-db-data
+  wp_data:
+    name: portfolio-wp-data
