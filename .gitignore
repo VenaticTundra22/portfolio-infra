@@ -70,3 +70,34 @@ db_data/
 *.sql.gz
 *.tar.gz
 backups/
+
+# ---------------------------
+# CERTIFICATS SSL (SECRETS)
+# ---------------------------
+certbot/
+
+# ---------------------------
+# WORDPRESS - Fichiers générés
+# ---------------------------
+wp-content/uploads/
+wp-content/upgrade/
+
+# ---------------------------
+# WORDPRESS - Thèmes tiers
+# ---------------------------
+wp-content/themes/*
+!wp-content/themes/twentytwentyfive-child/
+
+# ---------------------------
+# WORDPRESS - Plugins tiers
+# ---------------------------
+wp-content/plugins/*
+!wp-content/plugins/portfolio-projets/
+
+# ---------------------------
+# WORDPRESS - Fichiers core/cache
+# ---------------------------
+wp-content/index.php
+wp-content/languages/
+wp-content/litespeed/
+wp-content/.litespeed_conf.dat
