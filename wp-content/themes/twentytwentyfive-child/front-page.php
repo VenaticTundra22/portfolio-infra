@@ -16,17 +16,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <?php get_header(); ?>
 
-<main class="site-content">
+<!-- Layer 1: Title (behind image) - centered -->
+<div class="hero-title">VenaticTundra22</div>
 
-    <section class="hero">
-        <h1>Mathéo</h1>
-        <p>Élève en Terminale · Passionné d'informatique</p>
-    </section>
-
-    <div class="projets-container">
-        <?php echo do_shortcode('[mes_projets]'); ?>
-    </div>
-
-</main>
+<!-- Layer 2: 3D Image (large, bottom-anchored, on top of title) -->
+<div class="abstract-image">
+    <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/windows.png" alt="Abstract 3D Shape">
+</div>
 
 <?php get_footer(); ?>
