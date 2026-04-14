@@ -15,12 +15,10 @@ if ( ! defined( 'ABSPATH' ) ) {
     <div class="bottom-section">
         <div class="bottom-left">
             <div class="date"></div>
-            <div class="creative-direction">© 2026 Mathéo</div>
+            <div class="creative-direction">© 2026 Vena</div>
         </div>
         <div class="social-links">
             <a href="https://github.com/VenaticTundra22" target="_blank">GITHUB</a>
-            <a href="#" onclick="event.preventDefault()">Games</a>
-            <a href="#" onclick="event.preventDefault()">CARDS</a>
         </div>
     </div>
 </footer>

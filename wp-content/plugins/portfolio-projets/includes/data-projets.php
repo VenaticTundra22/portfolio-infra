@@ -28,7 +28,7 @@ function portfolio_get_projets() {
             'emoji' => '🎨',
             'titre' => 'Développement Frontend',
             'description' => 'Création d\'un thème enfant WordPress avec variables CSS personnalisées, animations au survol, et design responsive adapté aux mobiles.',
-            'badges' => array('CSS3', 'HTML5', 'Responsive Design', 'WordPress'),
+            'badges' => array('CSS', 'HTML', 'Responsive Design', 'WordPress'),
             'competences' => 'Frontend, UX/UI, Accessibilité'
         ),
         array(

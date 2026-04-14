@@ -21,6 +21,8 @@ function portfolio_shortcode_projets() {
     // Commencer la capture de sortie
     ob_start();
     
+    echo '<div class="projets-container">';
+    
     // Boucle sur chaque projet
     foreach ($projets as $projet) {
         ?>
@@ -39,6 +41,8 @@ function portfolio_shortcode_projets() {
         </div>
         <?php
     }
+    
+    echo '</div>';
     
     // Retourner le contenu capturé
     return ob_get_clean();

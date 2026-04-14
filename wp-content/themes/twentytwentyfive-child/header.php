@@ -14,20 +14,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 
 <!DOCTYPE html>
-<html <?php language_attributes(); ?> <?php 
-if ( is_page_template('page-roadmap.php') || is_page(142) || is_front_page() ) {
-    echo 'style="background-color: #000; overflow: hidden; height: 100%;"';
-}
-?>>
+<html <?php language_attributes(); ?>>
 <head>
     <meta charset="<?php bloginfo( 'charset' ); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portfolio de Mathéo (VenaticTundra22) - Étudiant en BUT Informatique. Découvrez mes projets, mon blog et ma roadmap.">
+    <meta name="description" content="Portfolio de Vena (VenaticTundra22) - Étudiant au lycée. Découvrez mes projets, mon blog et ma roadmap.">
     <?php wp_head(); ?>
 </head>
 
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
+
+<!-- Message de maintenance temporaire -->
+<div id="maintenanceNotice" class="maintenance-overlay">
+    <div class="maintenance-content">
+        <h2>⚠️ Info Maintenance</h2>
+        <p>Le site sera en travaux aujourd'hui de <strong>20h00 à 01h00</strong>. Certaines pages pourraient être inaccessibles.</p>
+        <button id="closeMaintenance">Compris</button>
+    </div>
+</div>
 
 <?php
 // Détermine si on a besoin d'un conteneur pleine largeur (Articles, Blog, Accueil)
@@ -40,15 +45,13 @@ if ( is_single() || is_page_template('page-blog.php') || is_front_page() || is_p
 <header class="site-header">
     <!-- Navigation -->
     <nav>
-        <div class="logo">WORDPRESS</div>
+        <div class="brand-container">
+            <div class="header-date"></div>
+            <div class="logo">PORTFOLIO</div>
+        </div>
         
-        <!-- Liquid Glass Navigation Bar -->
-        <div class="nav-glass" id="navGlass">
-            <!-- Decorative liquid bubbles -->
-            <span class="bubble bubble-1"></span>
-            <span class="bubble bubble-2"></span>
-            <span class="bubble bubble-3"></span>
-            
+        <!-- Navigation Links -->
+        <div class="nav-links">
             <?php
             // Détection de la page active pour placer la bulle
             $home_active    = is_front_page() ? 'active' : '';
@@ -56,57 +59,47 @@ if ( is_single() || is_page_template('page-blog.php') || is_front_page() || is_p
             $roadmap_active = ( is_page_template('page-roadmap.php') || is_page('roadmap') ) ? 'active' : '';
             ?>
             
-            <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="<?php echo $home_active; ?>" data-index="0">Accueil</a>
-            <a href="<?php echo esc_url( home_url( '/blog' ) ); ?>" class="<?php echo $blog_active; ?>" data-index="2">Blog</a>
-            <a href="<?php echo esc_url( home_url( '/roadmap' ) ); ?>" class="<?php echo $roadmap_active; ?>" data-index="3">Roadmap</a>
-        </div>
+            <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="<?php echo $home_active; ?>">Accueil</a>
+            <a href="<?php echo esc_url( home_url( '/blog' ) ); ?>" class="<?php echo $blog_active; ?>">Blog</a>
+            <a href="<?php echo esc_url( home_url( '/roadmap' ) ); ?>" class="<?php echo $roadmap_active; ?>">Roadmap</a>
+            <a href="<?php echo esc_url( home_url( '/dev' ) ); ?>" class="<?php echo $roadmap_active; ?>">Projets</a>
 
-        <a href="<?php echo esc_url( 'https://github.com/venatictundra22' ); ?>" class="get-in-touch">Github</a>
+        </div>
     </nav>
 </header>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const navGlass = document.getElementById('navGlass');
-        if (!navGlass) return;
+        // Initialisation et mise à jour de la date dans le header
+        const headerDate = document.querySelector('.header-date');
+        function updateHeaderDate() {
+            if (!headerDate) return;
+            const now = new Date();
+            const day = now.getDate();
+            const month = now.toLocaleString('en-US', { month: 'long' });
+            const year = now.getFullYear();
+            headerDate.textContent = `${day} ${month} ${year}`;
+        }
+        updateHeaderDate();
+        setInterval(updateHeaderDate, 60000);
+
+        // Gestion du popup de maintenance
+        const notice = document.getElementById('maintenanceNotice');
+        const closeBtn = document.getElementById('closeMaintenance');
         
-        const navLinks = navGlass.querySelectorAll('a[data-index]');
-
-        function updateHighlight(element) {
-            const rect = element.getBoundingClientRect();
-            const parentRect = navGlass.getBoundingClientRect();
-            const left = rect.left - parentRect.left;
-            const width = rect.width;
-            
-            navGlass.style.setProperty('--highlight-left', `${left}px`);
-            navGlass.style.setProperty('--highlight-width', `${width}px`);
+        // Afficher seulement si l'utilisateur ne l'a pas encore fermé pendant sa session
+        if (!sessionStorage.getItem('maintenanceSeen') && notice) {
+            notice.style.display = 'flex';
         }
 
-        // Set initial highlight on active link
-        const activeLink = navGlass.querySelector('a.active');
-        if (activeLink) {
-            updateHighlight(activeLink);
+        if(closeBtn && notice) {
+            closeBtn.addEventListener('click', () => {
+                notice.style.opacity = '0';
+                setTimeout(() => {
+                    notice.style.display = 'none';
+                    sessionStorage.setItem('maintenanceSeen', 'true');
+                }, 300); // Laisse le temps à l'animation de fondu de s'exécuter
+            });
         }
-
-        // Move highlight on hover
-        navLinks.forEach(link => {
-            link.addEventListener('mouseenter', () => {
-                updateHighlight(link);
-            });
-
-            link.addEventListener('click', (e) => {
-                navLinks.forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
-                updateHighlight(link);
-            });
-        });
-
-        // Return to active link when mouse leaves nav
-        navGlass.addEventListener('mouseleave', () => {
-            const activeLink = navGlass.querySelector('a.active');
-            if (activeLink) {
-                updateHighlight(activeLink);
-            }
-        });
     });
 </script>

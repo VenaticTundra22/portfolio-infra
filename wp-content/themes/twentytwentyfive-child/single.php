@@ -15,19 +15,14 @@ get_header();
 ?>
 
 <div class="single-post-wrapper">
-    <!-- Background Image -->
-    <div class="abstract-image">
-        <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/windows.png" alt="">
-    </div>
-
-    <!-- Back Button -->
-    <a href="<?php echo esc_url( home_url( '/blog' ) ); ?>" class="back-button">
-        <div class="back-button-circle">
-            ←
-        </div>
-    </a>
 
     <main class="site-content">
+        <!-- Back Button -->
+        <a href="<?php echo esc_url( home_url( '/blog' ) ); ?>" class="back-button">
+            <div class="back-button-circle">←</div>
+            Retour au blog
+        </a>
+
         <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
             <article class="single-article">
 
