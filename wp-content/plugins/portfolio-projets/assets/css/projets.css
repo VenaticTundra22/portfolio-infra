@@ -24,7 +24,7 @@
     display: flex;
     flex-direction: column;
     position: relative;
-    z-index: 110; /* Supérieur au grain (100) pour ne pas être impacté */
+    z-index: 110;
 }
 
 .carte-projet:hover {

@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     <!-- Encadré de présentation -->
     <div class="intro-container">
         <div class="intro-content">
-            <h1 class="intro-title">Bonjour, je suis Vena</h1>
+            <h1 class="intro-title">Bonjour,</h1>
             <h2 class="intro-subtitle">Étudiant au lycée</h2>
             <p class="intro-text">
                 Passionné par l'informatique et les nouvelles technologies, 
@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             </p>
             <div class="intro-actions">
                 <a href="<?php echo esc_url( home_url( '/blog' ) ); ?>" class="card-read-more">Mon Blog</a>
-                <a href="<?php echo esc_url( home_url( '/dev' ) ); ?>" class="card-read-more">Mes projets</a>
+                <a href="<?php echo esc_url( home_url( '/projets' ) ); ?>" class="card-read-more">Mes projets</a>
                 <a href="<?php echo esc_url( home_url( '/parcours' ) ); ?>" class="card-read-more">Mon parcours</a>
             </div>
         </div>

@@ -22,6 +22,12 @@ services:
     networks:
       - backend
     # PAS de "ports:" ici — la DB n'est JAMAIS exposée
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   # ---- WordPress (PHP-FPM) ----
   wordpress:
@@ -29,13 +35,21 @@ services:
     container_name: portfolio-wp
     restart: unless-stopped
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/localhost/9000 && echo -e \"GET /ping HTTP/1.0\r\n\" >&3' 2>/dev/null || php -r 'exit(0);'"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
     environment:
       WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
       WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
       WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
       WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
-      PHP_INI_SCAN_DIR: ":/usr/local/etc/php/conf.d"
+      # --- Sécurité : désactiver l'éditeur de fichiers WP ---
+      WORDPRESS_CONFIG_EXTRA: "define('DISALLOW_FILE_EDIT', true);"
     volumes:
       - wordpress_data:/var/www/html
       - ./wp-content:/var/www/html/wp-content

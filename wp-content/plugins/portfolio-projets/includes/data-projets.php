@@ -54,3 +54,44 @@ function portfolio_get_projets() {
         ),
     );
 }
+
+/**
+ * Retourne la liste des commandes du bot H.U.N.T
+ * 
+ * @return array Tableau associatif des commandes
+ */
+function portfolio_get_hunt_commandes() {
+    return array(
+        array(
+            'idx'   => 'MOD.01',
+            'title' => '/Help',
+            'desc'  => "Permet d'avoir de l'aide sur l'utilisation des différentes commandes et des informations sur le bot lui-même telle que le nombre de serveur sur lequel il se trouve et sa latence."
+        ),
+        array(
+            'idx'   => 'MOD.02',
+            'title' => '/Embed',
+            'desc'  => "Créez vos propres embeds personnalisés et envoyez-les à votre guise sur votre serveur. Prend en charge l'ajout de titre, de texte supportant le MarkDown, d'images via leurs URL, de couleurs personnalisées et d'un footer personnalisé."
+        ),
+        array(
+            'idx'   => 'MOD.03',
+            'title' => '/Builder',
+            'desc'  => "Permet exactement la même chose que la fonction \"Embed\" mais de manière beaucoup plus avancée. Permet d'envoyer plusieurs embeds d'un seul coup et d'y ajouter un message texte envoyé avant les embeds, idéal pour des messages de publicité ou des messages d'information."
+        ),
+        array(
+            'idx'   => 'MOD.04',
+            'title' => '/Clear',
+            'desc'  => "Supprime un nombre défini de messages dans un salon. Seuls les utilisateurs ayant la permission <strong>Gérer les messages</strong> peuvent l'utiliser."
+        ),
+        array(
+            'idx'   => 'MOD.05',
+            'title' => '/ReactionRole',
+            'desc'  => "Permet d'attribuer des rôles par réaction. Les utilisateurs peuvent cliquer sur un bouton pour obtenir un rôle et le retirer en cliquant à nouveau. Utilise discord components V2 pour un rendu premium."
+        ),
+        array(
+            'idx'   => 'MOD.06',
+            'title' => '/Say',
+            'desc'  => "Permet d'envoyer un message via le bot avec la possibilité d'y ajouter une image."
+        )
+    );
+}
+

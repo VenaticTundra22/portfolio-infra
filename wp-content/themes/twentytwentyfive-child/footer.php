@@ -30,6 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     const dateElement = document.querySelector('.date');
 
     function updateDate() {
+        if (!dateElement) return;
         const now = new Date();
         const day = now.getDate();
         const month = now.toLocaleString('en-US', { month: 'long' });

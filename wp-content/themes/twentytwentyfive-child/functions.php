@@ -50,7 +50,7 @@ function twentytwentyfive_child_enqueue_styles() {
         wp_get_theme()->get('Version')             // Version de l'enfant (pour le cache)
     );
 
-    // 3. Google Fonts (Optimisation : chargement non-bloquant via PHP au lieu de @import CSS)
+    // Google Fonts (Optimisation : chargement non-bloquant via PHP au lieu de @import CSS)
     wp_enqueue_style( 
         'twentytwentyfive-child-fonts', 
         'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap', 
@@ -61,6 +61,26 @@ function twentytwentyfive_child_enqueue_styles() {
 
 // Hook WordPress : Exécute la fonction au moment du chargement des styles
 add_action( 'wp_enqueue_scripts', 'twentytwentyfive_child_enqueue_styles' );
+
+/**
+ * Ajoute les balises preconnect pour Google Fonts (optimisation de performance)
+ */
+function twentytwentyfive_child_preconnect_google_fonts( $urls, $relation_type ) {
+    if ( 'preconnect' === $relation_type ) {
+        $urls[] = array(
+            'href' => 'https://fonts.googleapis.com',
+            'crossorigin' => '',
+        );
+        $urls[] = array(
+            'href' => 'https://fonts.gstatic.com',
+            'crossorigin' => 'anonymous',
+        );
+    }
+    return $urls;
+}
+add_filter( 'wp_resource_hints', 'twentytwentyfive_child_preconnect_google_fonts', 10, 2 );
+
+
 
 
 // ══════════════════════════════════════════════════════════════
@@ -278,3 +298,6 @@ add_action( 'template_redirect', 'tt25_child_block_author_scans', 1 );
  * Rend les scans via curl moins informatifs pour les attaquants.
  */
 remove_action('wp_head', 'wp_generator');
+
+
+

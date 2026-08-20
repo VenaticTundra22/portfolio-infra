@@ -25,19 +25,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 
-<!-- Message de maintenance temporaire -->
-<div id="maintenanceNotice" class="maintenance-overlay">
-    <div class="maintenance-content">
-        <h2>⚠️ Info Maintenance</h2>
-        <p>Le site sera en travaux aujourd'hui de <strong>20h00 à 01h00</strong>. Certaines pages pourraient être inaccessibles.</p>
-        <button id="closeMaintenance">Compris</button>
-    </div>
-</div>
-
 <?php
 // Détermine si on a besoin d'un conteneur pleine largeur (Articles, Blog, Accueil)
 $container_class = 'container';
-if ( is_single() || is_page_template('page-blog.php') || is_front_page() || is_page_template('page-roadmap.php') || is_page(142) ) {
+if ( is_single() || is_page_template('page-blog.php') || is_front_page() || is_page_template('page-roadmap.php') || is_page('parcours') ) {
     $container_class .= ' full-width-layout';
 }
 ?>
@@ -57,12 +48,13 @@ if ( is_single() || is_page_template('page-blog.php') || is_front_page() || is_p
             $home_active    = is_front_page() ? 'active' : '';
             $blog_active    = ( ! is_front_page() && ( is_home() || is_page('blog') || is_page_template('page-blog.php') || is_single() || is_category() || is_archive() ) ) ? 'active' : '';
             $roadmap_active = ( is_page_template('page-roadmap.php') || is_page('roadmap') ) ? 'active' : '';
+            $projets_active = ( is_page_template('page-projets.php') || is_page('projets') ) ? 'active' : '';
             ?>
             
             <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="<?php echo $home_active; ?>">Accueil</a>
             <a href="<?php echo esc_url( home_url( '/blog' ) ); ?>" class="<?php echo $blog_active; ?>">Blog</a>
             <a href="<?php echo esc_url( home_url( '/roadmap' ) ); ?>" class="<?php echo $roadmap_active; ?>">Roadmap</a>
-            <a href="<?php echo esc_url( home_url( '/dev' ) ); ?>" class="<?php echo $roadmap_active; ?>">Projets</a>
+            <a href="<?php echo esc_url( home_url( '/projets' ) ); ?>" class="<?php echo $projets_active; ?>">Projets</a>
 
         </div>
     </nav>
@@ -82,24 +74,5 @@ if ( is_single() || is_page_template('page-blog.php') || is_front_page() || is_p
         }
         updateHeaderDate();
         setInterval(updateHeaderDate, 60000);
-
-        // Gestion du popup de maintenance
-        const notice = document.getElementById('maintenanceNotice');
-        const closeBtn = document.getElementById('closeMaintenance');
-        
-        // Afficher seulement si l'utilisateur ne l'a pas encore fermé pendant sa session
-        if (!sessionStorage.getItem('maintenanceSeen') && notice) {
-            notice.style.display = 'flex';
-        }
-
-        if(closeBtn && notice) {
-            closeBtn.addEventListener('click', () => {
-                notice.style.opacity = '0';
-                setTimeout(() => {
-                    notice.style.display = 'none';
-                    sessionStorage.setItem('maintenanceSeen', 'true');
-                }, 300); // Laisse le temps à l'animation de fondu de s'exécuter
-            });
-        }
     });
 </script>

@@ -13,6 +13,10 @@
 *.key
 id_ed25519*
 
+# Config Nginx avec IP privée — jamais dans git
+# Un nginx/default.conf.example (avec placeholder) reste en git
+nginx/default.conf
+
 # ---------------------------
 # WORDPRESS CORE
 # On ne versionne PAS le core WordPress.
@@ -93,6 +97,7 @@ wp-content/themes/*
 # ---------------------------
 wp-content/plugins/*
 !wp-content/plugins/portfolio-projets/
+!wp-content/plugins/vsmp-dashboard/
 
 # ---------------------------
 # WORDPRESS - Fichiers core/cache

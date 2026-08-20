@@ -50,3 +50,31 @@ function portfolio_shortcode_projets() {
 
 // Enregistrer le shortcode dans WordPress
 add_shortcode('mes_projets', 'portfolio_shortcode_projets');
+
+/**
+ * Shortcode [hunt_commandes]
+ * 
+ * Affiche la liste des commandes du bot H.U.N.T
+ * 
+ * @return string HTML généré
+ */
+function portfolio_shortcode_hunt_commandes() {
+    $commandes = portfolio_get_hunt_commandes();
+    
+    ob_start();
+    
+    foreach ($commandes as $cmd) {
+        ?>
+        <div class="feature-card">
+            <div class="idx"><?php echo esc_html($cmd['idx']); ?></div>
+            <h4><?php echo esc_html($cmd['title']); ?></h4>
+            <p><?php echo wp_kses_post($cmd['desc']); ?></p>
+        </div>
+        <?php
+    }
+    
+    return ob_get_clean();
+}
+
+add_shortcode('hunt_commandes', 'portfolio_shortcode_hunt_commandes');
+
